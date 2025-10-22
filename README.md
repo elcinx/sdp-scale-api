@@ -37,6 +37,95 @@ Sistem, **5 temel model** üzerine inşa edilmiştir:
 git clone https://github.com/elcinx/sdp-scale-api.git
 cd context7_api
 
+2️⃣ Bağımlılıkları Yükleyin
+bundle install
+
+3️⃣ Veritabanını Oluşturun ve Migrasyonları Uygulayın
+rails db:migrate
+
+4️⃣ Sunucuyu Başlatın
+rails s
+
+🔹 API artık şu adreste aktif:
+👉 http://localhost:3000
+
+📡 API Test (Postman Örnekleri)
+🧍 Kullanıcı Oluşturma
+
+POST → /api/v1/users
+
+{
+  "user": {
+    "name": "Dr. Elçin",
+    "email": "elcin@example.com",
+    "role": "Researcher"
+  }
+}
+
+📘 Ölçek (Scale) Ekleme
+
+POST → /api/v1/scales
+
+{
+  "scale": {
+    "title": "Anxiety Short Form",
+    "domain": "Psychology",
+    "version": "1.0",
+    "sdp_doi": "sdp:anx-sf:1.0",
+    "status": "Published",
+    "user_id": 1
+  }
+}
+
+❓ Soru (Question) Ekleme
+
+POST → /api/v1/scales/1/questions
+
+{
+  "question": {
+    "item_code": "Q1",
+    "text": "I felt tense today.",
+    "response_type": "Likert",
+    "options": "{\"min\":1,\"max\":5}"
+  }
+}
+
+📋 Anket (Survey) Ekleme
+
+POST → /api/v1/scales/1/surveys
+
+{
+  "survey": {
+    "title": "Anxiety Study - Cohort A",
+    "status": "draft",
+    "distribution_mode": "Online",
+    "start_at": "2025-10-22T09:00:00",
+    "end_at": "2025-11-22T17:00:00",
+    "user_id": 1
+  }
+}
+
+💬 Yanıt (Response) Gönderme
+
+POST → /api/v1/questions/1/responses
+
+{
+  "response": {
+    "answer": "I felt tense today.",
+    "user_id": 1,
+    "question_id": 1
+  }
+}
+
+🧱 Routes (Kısaca)
+HTTP	Endpoint	Açıklama
+GET	/api/v1/users	Kullanıcıları listeler
+POST	/api/v1/users	Yeni kullanıcı ekler
+POST	/api/v1/scales	Yeni ölçek ekler
+POST	/api/v1/scales/:scale_id/questions	Ölçeğe soru ekler
+POST	/api/v1/scales/:scale_id/surveys	Ölçeğe anket ekler
+POST	/api/v1/questions/:question_id/responses	Soruya yanıt ekler
+
 Proje Yapısı
 context7_api/
 ├── app/
